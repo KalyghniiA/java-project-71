@@ -1,10 +1,17 @@
-package hexlet.code.differ;
+package hexlet.code;
 
-import hexlet.code.differ.differJSON.DifferJSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.IOException;
 
+import static hexlet.code.utils.Parser.parsing;
+import static hexlet.code.utils.Utils.mappingFile;
+
 public class Differ {
+
+    private static ObjectMapper mapperJSON = new ObjectMapper();
+    private static ObjectMapper mapperYAML = new YAMLMapper();
     private static String filePath1;
     private static String filePath2;
     private static String format;
@@ -15,21 +22,22 @@ public class Differ {
     }
 
     public static void generate() throws IOException {
-
         if (!filePath1.substring(filePath1.lastIndexOf(".")).equals(filePath2.substring(filePath2.lastIndexOf(".")))) {
             throw new Error("different formats");
         }
 
-        switch (format) {
+        switch (format.toLowerCase()) {
             case "json":
-                System.out.println(DifferJSON.differ(filePath1, filePath2));
+                System.out.println(parsing(mappingFile(mapperJSON, filePath1), mappingFile(mapperJSON, filePath2)));
                 break;
-            case "stylish":
-                System.out.println(DifferJSON.differ(filePath1, filePath2));
+            case "yml":
+                System.out.println(parsing(mappingFile(mapperYAML, filePath1), mappingFile(mapperYAML, filePath2)));
                 break;
             default:
                 System.out.println("!");
         }
+
+
     }
 
 }

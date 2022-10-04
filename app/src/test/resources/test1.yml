@@ -1,0 +1,11 @@
+custom_hostname: suyos01c.svl.ibm.com
+ip: 9.30.16.143
+ansible_host: localhost
+external_connection_enabled: False
+partner_switch: False
+app_fqdn: suyos01.svl.ibm.com
+timezone: "America/Boston"
+subnet: 9.30.16.0
+default_gateway: true
+vlan: 4080
+gateway: 9.30.20.1

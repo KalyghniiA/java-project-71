@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.differ.Differ;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

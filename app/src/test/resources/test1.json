@@ -1,15 +1,10 @@
 {
   "name": "Иван",
   "age": 37,
-  "mother": {
-    "name": "Ольга",
-    "age": 58
-  },
-  "children": [
-    "Маша",
-    "Игорь",
-    "Таня"
-  ],
+  "mother": "Ольга",
+  "children1": "Маша",
+  "children2": "Игорь",
+  "children3": "Таня",
   "married": true,
-  "dog": null
+  "dog": "Jack"
 }
