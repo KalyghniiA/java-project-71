@@ -34,7 +34,7 @@ public class DifferPlain {
                     result.append("\nProperty \'"
                             + elem.getKey()
                             + "\' was added with value: \'"
-                            + value1
+                            + value2
                             + "\'");
                     break;
                 case DELETE:

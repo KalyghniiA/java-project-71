@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.IOException;
 
+import static hexlet.code.differ.DifferJSON.createDifferToJSON;
 import static hexlet.code.differ.DifferPlain.createDifferToPlain;
 import static hexlet.code.differ.DifferStylish.createDifferToStylish;
 import static hexlet.code.utils.Utils.mappingFile;
@@ -29,6 +30,9 @@ public class Differ {
 
 
         switch (format.toLowerCase()) {
+            case "json":
+                createDifferToJSON(mappingFile(filePath1), mappingFile(filePath2));
+                break;
             case "plain":
                 System.out.println(createDifferToPlain(mappingFile(filePath1), mappingFile(filePath2)));
                 break;
