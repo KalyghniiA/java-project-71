@@ -4,14 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static hexlet.code.Differ.createDifferToStylish;
+import static hexlet.code.differ.DifferPlain.createDifferToPlain;
+import static hexlet.code.differ.DifferStylish.createDifferToStylish;
 import static hexlet.code.utils.Utils.mappingFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DifferTest {
 
     @Test
-    public void differTest1() throws IOException {
+    public void differTestJSON1() throws IOException {
         String result = "{\n"
                 + "    age: 37\n"
                 + "  + cat: dog\n"
@@ -35,7 +36,7 @@ public class DifferTest {
     }
 
     @Test
-    public void differTest2() throws IOException {
+    public void differTestJSON2() throws IOException {
         String result = "{\n"
                 + "    age: 37\n"
                 + "  - cat: dog\n"
@@ -59,7 +60,7 @@ public class DifferTest {
     }
 
     @Test
-    public void differTest3() throws IOException {
+    public void differTestJSON3() throws IOException {
         String result = "{\n"
                 + "    age: 37\n"
                 + "    children1: Маша\n"
@@ -135,6 +136,31 @@ public class DifferTest {
                 + "}";
 
         String testResult = createDifferToStylish(
+                mappingFile("test3.json"),
+                mappingFile("test4.json")
+        );
+
+        assertEquals(result, testResult);
+    }
+
+    @Test
+    public void differJSONPlainFormat() throws IOException {
+        String result = "\n"
+                + "Property 'chars2' was updated. From [complex value] to false\n"
+                + "Property 'checked' was updated. From false to true\n"
+                + "Property 'default' was updated. From null to [complex value]\n"
+                + "Property 'id' was updated. From 45 to null\n"
+                + "Property 'key1' was removed\n"
+                + "Property 'key2' was added with value: 'null'\n"
+                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
+                + "Property 'numbers3' was removed\n"
+                + "Property 'numbers4' was added with value: 'null'\n"
+                + "Property 'obj1' was added with value: 'null'\n"
+                + "Property 'setting1' was updated. From Some value to Another value\n"
+                + "Property 'setting2' was updated. From 200 to 300\n"
+                + "Property 'setting3' was updated. From true to none";
+
+        String testResult = createDifferToPlain(
                 mappingFile("test3.json"),
                 mappingFile("test4.json")
         );
