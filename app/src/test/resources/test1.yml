@@ -6,6 +6,13 @@ partner_switch: False
 app_fqdn: suyos01.svl.ibm.com
 timezone: "America/Boston"
 subnet: 9.30.16.0
-default_gateway: true
-vlan: 4080
-gateway: 9.30.20.1
+default_gateway1:
+  vlan: 1080
+  gateway: 9.30.20.1
+default_gateway2:
+  vlan: 4080
+  gateway1: 9.30.20.1
+  gateway2: 9.30.20.1
+default_gateway3:
+  vlan: 4010
+  gateway: 9.30.20.1

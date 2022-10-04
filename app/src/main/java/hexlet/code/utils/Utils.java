@@ -2,6 +2,7 @@ package hexlet.code.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,10 +19,27 @@ public class Utils {
                 : Paths.get(CATALOG_URI + path).toAbsolutePath();
     }
 
-    public static Map<String, Object> mappingFile(ObjectMapper objectMapper, String filePath) throws IOException {
+    public static Map<String, Object> mappingFile(String filePath) throws IOException {
+        ObjectMapper objectMapper = filePath.substring(filePath.lastIndexOf(".")).equals("yml")
+                ? new ObjectMapper()
+                : new YAMLMapper();
+
         return objectMapper
                 .readValue(getAbsolutePath(filePath).toFile(), new TypeReference<HashMap<String, Object>>() {
 
                 });
     }
+
+    /*
+    при добавлении новых форматов
+    private static ObjectMapper createObjectWrapper(String filePath) {
+        String typeFile = filePath.substring(filePath.lastIndexOf("."));
+
+        switch(typeFile) {
+            case "yml":
+                return new YAMLMapper();
+            default:
+                return new ObjectMapper();
+        }
+    }*/
 }

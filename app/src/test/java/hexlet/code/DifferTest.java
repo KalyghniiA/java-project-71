@@ -1,18 +1,14 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static hexlet.code.utils.Parser.parsing;
+import static hexlet.code.Differ.createDifferToStylish;
 import static hexlet.code.utils.Utils.mappingFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DifferTest {
-    private ObjectMapper mapperJSON = new ObjectMapper();
-    private ObjectMapper mapperYAML = new YAMLMapper();
 
     @Test
     public void differTest1() throws IOException {
@@ -31,9 +27,9 @@ public class DifferTest {
                 + "}";
 
 
-        String testingResult = parsing(
-                mappingFile(mapperJSON, "test1.json"),
-                mappingFile(mapperJSON, "test2.json"));
+        String testingResult = createDifferToStylish(
+                mappingFile("test1.json"),
+                mappingFile("test2.json"));
 
         assertEquals(result, testingResult);
     }
@@ -55,9 +51,9 @@ public class DifferTest {
                 + "}";
 
 
-        String testingResult = parsing(
-                mappingFile(mapperJSON, "test2.json"),
-                mappingFile(mapperJSON, "test1.json"));
+        String testingResult = createDifferToStylish(
+                mappingFile("test2.json"),
+                mappingFile("test1.json"));
 
         assertEquals(result, testingResult);
     }
@@ -76,9 +72,9 @@ public class DifferTest {
                 + "}";
 
 
-        String testingResult = parsing(
-                mappingFile(mapperJSON, "test1.json"),
-                mappingFile(mapperJSON, "test1.json"));
+        String testingResult = createDifferToStylish(
+                mappingFile("test1.json"),
+                mappingFile("test1.json"));
 
         assertEquals(result, testingResult);
     }
@@ -89,21 +85,59 @@ public class DifferTest {
                 + "    ansible_host: localhost\n"
                 + "    app_fqdn: suyos01.svl.ibm.com\n"
                 + "    custom_hostname: suyos01c.svl.ibm.com\n"
-                + "    default_gateway: true\n"
+                + "  - default_gateway1: {vlan=1080, gateway=9.30.20.1}\n"
+                + "  + default_gateway1: {vlan=1280, gateway=9.30.20.1}\n"
+                + "  - default_gateway2: {vlan=4080, gateway1=9.30.20.1, gateway2=9.30.20.1}\n"
+                + "  + default_gateway2: {vlan=4180, gateway1=9.30.20.1, gateway2=9.30.20.1}\n"
+                + "    default_gateway3: {vlan=4010, gateway=9.30.20.1}\n"
                 + "  - external_connection_enabled: false\n"
                 + "  + external_connection_enabled: true\n"
-                + "    gateway: 9.30.20.1\n"
                 + "    ip: 9.30.16.143\n"
                 + "    partner_switch: false\n"
                 + "    subnet: 9.30.16.0\n"
                 + "  - timezone: America/Boston\n"
                 + "  + timezone: America/Los_Angeles\n"
-                + "    vlan: 4080\n"
                 + "}";
 
-        String testResult = parsing(
-                mappingFile(mapperYAML, "test1.yml"),
-                mappingFile(mapperYAML, "test2.yml"));
+        String testResult = createDifferToStylish(
+                mappingFile("test1.yml"),
+                mappingFile("test2.yml"));
+
+        assertEquals(result, testResult);
+    }
+
+    @Test
+    public void differNestedStructureJSON() throws IOException {
+        String result = "{\n"
+                + "    chars1: [a, b, c]\n"
+                + "  - chars2: [d, e, f]\n"
+                + "  + chars2: false\n"
+                + "  - checked: false\n"
+                + "  + checked: true\n"
+                + "  - default: null\n"
+                + "  + default: [value1, value2]\n"
+                + "  - id: 45\n"
+                + "  + id: null\n"
+                + "  - key1: value1\n"
+                + "  + key2: value2\n"
+                + "    numbers1: [1, 2, 3, 4]\n"
+                + "  - numbers2: [2, 3, 4, 5]\n"
+                + "  + numbers2: [22, 33, 44, 55]\n"
+                + "  - numbers3: [3, 4, 5]\n"
+                + "  + numbers4: [4, 5, 6]\n"
+                + "  + obj1: {nestedKey=value, isNested=true}\n"
+                + "  - setting1: Some value\n"
+                + "  + setting1: Another value\n"
+                + "  - setting2: 200\n"
+                + "  + setting2: 300\n"
+                + "  - setting3: true\n"
+                + "  + setting3: none\n"
+                + "}";
+
+        String testResult = createDifferToStylish(
+                mappingFile("test3.json"),
+                mappingFile("test4.json")
+        );
 
         assertEquals(result, testResult);
     }

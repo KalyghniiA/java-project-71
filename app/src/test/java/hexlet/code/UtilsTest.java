@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -33,7 +32,6 @@ public class UtilsTest {
 
     @Test
     public void mappingFileJsonTest() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         String path = "test1.json";
         final int age = 37;
 
@@ -48,7 +46,7 @@ public class UtilsTest {
                 "dog", "Jack"));
 
 
-        assertEquals(testResult, mappingFile(objectMapper, path));
+        assertEquals(testResult, mappingFile(path));
 
     }
 }

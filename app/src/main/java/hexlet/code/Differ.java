@@ -2,8 +2,10 @@ package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import hexlet.code.utils.StatusData;
 
 import java.io.IOException;
+import java.util.Map;
 
 import static hexlet.code.utils.Parser.parsing;
 import static hexlet.code.utils.Utils.mappingFile;
@@ -27,17 +29,34 @@ public class Differ {
         }
 
         switch (format.toLowerCase()) {
-            case "json":
-                System.out.println(parsing(mappingFile(mapperJSON, filePath1), mappingFile(mapperJSON, filePath2)));
-                break;
-            case "yml":
-                System.out.println(parsing(mappingFile(mapperYAML, filePath1), mappingFile(mapperYAML, filePath2)));
-                break;
             default:
-                System.out.println("!");
+                System.out.println(createDifferToStylish(mappingFile(filePath1), mappingFile(filePath2)));
         }
-
-
     }
 
+    static String createDifferToStylish(Map<String, Object> file1, Map<String, Object> file2) {
+        StringBuilder result = new StringBuilder("{");
+        Map<String, StatusData> parseResult = parsing(file1, file2);
+
+        for (Map.Entry<String, StatusData> elem: parseResult.entrySet()) {
+            switch (elem.getValue()) {
+                case ADDED:
+                    result.append("\n  + " + elem.getKey() + ": " + file2.get(elem.getKey()));
+                    break;
+                case DELETE:
+                    result.append("\n  - " + elem.getKey() + ": " + file1.get(elem.getKey()));
+                    break;
+                case MODIFICATION:
+                    result.append("\n  - " + elem.getKey() + ": " + file1.get(elem.getKey()));
+                    result.append("\n  + " + elem.getKey() + ": " + file2.get(elem.getKey()));
+                    break;
+                default:
+                    result.append("\n    " + elem.getKey() + ": " + file1.get(elem.getKey()));
+            }
+        }
+
+        result.append("\n}");
+
+        return result.toString();
+    }
 }

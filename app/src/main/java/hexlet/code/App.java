@@ -13,8 +13,8 @@ public class App implements Callable {
     private static String filePath1;
     @Parameters(paramLabel = "filePath2", description = "path to second file")
     private static String filePath2;
-    @Option(names = {"-f", "--format"}, description = {"output format [default: stylish]"})
-    private static String format = "stylish";
+    @Option(names = {"-f", "--format"}, description = {"output format [default: stylish]"}, defaultValue = "stylish")
+    private static String format;
 
 
     @Override
