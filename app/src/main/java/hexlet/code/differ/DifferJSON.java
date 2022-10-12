@@ -1,50 +1,50 @@
 package hexlet.code.differ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.utils.StatusData;
+import hexlet.code.utils.StatusDataElement;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static hexlet.code.utils.Parser.parsing;
-
 public class DifferJSON {
     private static ObjectMapper objectMapper = new ObjectMapper();
-    public static File createDifferToJSON(Map<String, Object> file1, Map<String, Object> file2) throws IOException {
+    public static File createDifferToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
         File resultFile = new File("src/test/resources/result.json");
         Map<String, Object> resultMap = new TreeMap<>();
 
 
-        Map<String, StatusData> parseResult = parsing(file1, file2);
+        for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
-        for (Map.Entry<String, StatusData> elem: parseResult.entrySet()) {
-            switch (elem.getValue()) {
+            switch (elem.getValue().getStatus()) {
                 case ADDED:
                     resultMap.put(
                             "+" + elem.getKey(),
-                            file2.get(elem.getKey())
+                            elem.getValue().getValueElement()
                     );
                     break;
                 case DELETE:
                     resultMap.put(
                             "-" + elem.getKey(),
-                            file1.get(elem.getKey())
+                            elem.getValue().getValueElement()
                     );
                     break;
                 case MODIFICATION:
                     resultMap.put(
                             "-" + elem.getKey(),
-                            file1.get(elem.getKey())
+                            elem.getValue().getValueElement()
                     );
                     resultMap.put(
                             "+" + elem.getKey(),
-                            file2.get(elem.getKey())
+                            elem.getValue().getNewValueElement()
                     );
                     break;
+                case NOT_CHANGED:
+                    resultMap.put(elem.getKey(), elem.getValue().getValueElement());
+                    break;
                 default:
-                    resultMap.put(elem.getKey(), file1.get(elem.getKey()));
+                    throw new Error("unknown status");
             }
         }
 

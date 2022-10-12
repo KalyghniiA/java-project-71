@@ -19,10 +19,8 @@ public class Utils {
                 : Paths.get(CATALOG_URI + path).toAbsolutePath();
     }
 
-    public static Map<String, Object> mappingFile(String filePath) throws IOException {
-        ObjectMapper objectMapper = filePath.substring(filePath.lastIndexOf(".")).equals("yml")
-                ? new ObjectMapper()
-                : new YAMLMapper();
+    public static Map<String, Object> mappingFile(String filePath, ObjectMapper objectMapper) throws IOException {
+
 
         return objectMapper
                 .readValue(getAbsolutePath(filePath).toFile(), new TypeReference<HashMap<String, Object>>() {
@@ -30,16 +28,23 @@ public class Utils {
                 });
     }
 
-    /*
-    при добавлении новых форматов
-    private static ObjectMapper createObjectWrapper(String filePath) {
+    public static boolean isValidationFormat(String filePath1, String filePath2) {
+        return getFileFormat(filePath1).equals(getFileFormat(filePath2));
+    }
+
+    public static String getFileFormat(String filePath) {
+        return filePath.substring(filePath.lastIndexOf("."));
+    }
+    public static ObjectMapper createObjectMapper(String filePath) {
         String typeFile = filePath.substring(filePath.lastIndexOf("."));
 
-        switch(typeFile) {
-            case "yml":
+        switch (typeFile) {
+            case ".yml":
                 return new YAMLMapper();
-            default:
+            case ".json":
                 return new ObjectMapper();
+            default:
+                throw new Error("failed to create ObjectMapper");
         }
-    }*/
+    }
 }

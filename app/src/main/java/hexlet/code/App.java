@@ -20,8 +20,8 @@ public class App implements Callable {
 
     @Override
     public final Object call() throws Exception {
-        Differ differ = new Differ(filePath1, filePath2, format);
-        differ.generate();
+        Differ differ = new Differ(filePath1, filePath2);
+        differ.generate(format);
         return null;
     }
 

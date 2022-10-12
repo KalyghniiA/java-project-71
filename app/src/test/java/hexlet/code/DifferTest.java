@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.utils.StatusDataElement;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -9,6 +11,8 @@ import java.util.Map;
 import static hexlet.code.differ.DifferJSON.createDifferToJSON;
 import static hexlet.code.differ.DifferPlain.createDifferToPlain;
 import static hexlet.code.differ.DifferStylish.createDifferToStylish;
+import static hexlet.code.utils.Parser.parsing;
+import static hexlet.code.utils.Utils.createObjectMapper;
 import static hexlet.code.utils.Utils.mappingFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,10 +34,13 @@ public class DifferTest {
                 + "    name: Иван\n"
                 + "}";
 
+        ObjectMapper objectMapper = createObjectMapper("test1.json");
 
-        String testingResult = createDifferToStylish(
-                mappingFile("test1.json"),
-                mappingFile("test2.json"));
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test1.json", objectMapper),
+                mappingFile("test2.json", objectMapper));
+
+        String testingResult = createDifferToStylish(resultDiff);
 
         assertEquals(result, testingResult);
     }
@@ -53,11 +60,13 @@ public class DifferTest {
                 + "    mother: Ольга\n"
                 + "    name: Иван\n"
                 + "}";
+        ObjectMapper objectMapper = createObjectMapper("test1.json");
 
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test2.json", objectMapper),
+                mappingFile("test1.json", objectMapper));
 
-        String testingResult = createDifferToStylish(
-                mappingFile("test2.json"),
-                mappingFile("test1.json"));
+        String testingResult = createDifferToStylish(resultDiff);
 
         assertEquals(result, testingResult);
     }
@@ -74,11 +83,13 @@ public class DifferTest {
                 + "    mother: Ольга\n"
                 + "    name: Иван\n"
                 + "}";
+        ObjectMapper objectMapper = createObjectMapper("test1.json");
 
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test1.json", objectMapper),
+                mappingFile("test1.json", objectMapper));
 
-        String testingResult = createDifferToStylish(
-                mappingFile("test1.json"),
-                mappingFile("test1.json"));
+        String testingResult = createDifferToStylish(resultDiff);
 
         assertEquals(result, testingResult);
     }
@@ -103,9 +114,13 @@ public class DifferTest {
                 + "  + timezone: America/Los_Angeles\n"
                 + "}";
 
-        String testResult = createDifferToStylish(
-                mappingFile("test1.yml"),
-                mappingFile("test2.yml"));
+        ObjectMapper objectMapper = createObjectMapper("test1.yml");
+
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test1.yml", objectMapper),
+                mappingFile("test2.yml", objectMapper));
+
+        String testResult = createDifferToStylish(resultDiff);
 
         assertEquals(result, testResult);
     }
@@ -138,10 +153,13 @@ public class DifferTest {
                 + "  + setting3: none\n"
                 + "}";
 
-        String testResult = createDifferToStylish(
-                mappingFile("test3.json"),
-                mappingFile("test4.json")
-        );
+        ObjectMapper objectMapper = createObjectMapper("test3.json");
+
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test3.json", objectMapper),
+                mappingFile("test4.json", objectMapper));
+
+        String testResult = createDifferToStylish(resultDiff);
 
         assertEquals(result, testResult);
     }
@@ -162,23 +180,27 @@ public class DifferTest {
                 + "Property 'setting1' was updated. From Some value to Another value\n"
                 + "Property 'setting2' was updated. From 200 to 300\n"
                 + "Property 'setting3' was updated. From true to none";
+        ObjectMapper objectMapper = createObjectMapper("test3.json");
 
-        String testResult = createDifferToPlain(
-                mappingFile("test3.json"),
-                mappingFile("test4.json")
-        );
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test3.json", objectMapper),
+                mappingFile("test4.json", objectMapper));
+
+        String testResult = createDifferToPlain(resultDiff);
 
         assertEquals(result, testResult);
     }
 
     @Test
     public void differToFile() throws IOException {
-        Map<String, Object> result = mappingFile("testResultParse.json");
-        File testingFile = createDifferToJSON(
-                mappingFile("test1.json"),
-                mappingFile("test2.json")
-        );
-        Map<String, Object> testingResult = mappingFile(testingFile.getAbsolutePath());
+        ObjectMapper objectMapper = createObjectMapper("testResultParse.json");
+        Map<String, Object> result = mappingFile("testResultParse.json", objectMapper);
+        Map<String, StatusDataElement> resultDiff = parsing(
+                mappingFile("test1.json", objectMapper),
+                mappingFile("test2.json", objectMapper));
+        File testingFile = createDifferToJSON(resultDiff);
+
+        Map<String, Object> testingResult = mappingFile(testingFile.getAbsolutePath(), objectMapper);
 
         assertEquals(result, testingResult);
 

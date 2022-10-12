@@ -1,40 +1,37 @@
 package hexlet.code.differ;
 
-import hexlet.code.utils.StatusData;
+import hexlet.code.utils.StatusDataElement;
 
 import java.util.Map;
 
-import static hexlet.code.utils.Parser.parsing;
 
 public class DifferPlain {
 
-    public static String createDifferToPlain(Map<String, Object> file1, Map<String, Object> file2) {
+    public static String createDifferToPlain(Map<String, StatusDataElement> resultDiff) {
         StringBuilder result = new StringBuilder();
-        Map<String, StatusData> parseResult = parsing(file1, file2);
 
-        for (Map.Entry<String, StatusData> elem: parseResult.entrySet()) {
-            Object value1 = file1.get(elem.getKey()) == null
-                    ? file1.get(elem.getKey())
-                    : file1.get(elem.getKey()).toString().charAt(0) == '{'
-                        || file1.get(elem.getKey()).toString().charAt(0) == '['
-                        ? "[complex value]"
-                        : file1.get(elem.getKey());
+        for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
+            Object value1 = elem.getValue().getValueElement() == null
+                ? elem.getValue().getValueElement()
+                : elem.getValue().getValueElement().toString().charAt(0) == '{'
+                    || elem.getValue().getValueElement().toString().charAt(0) == '['
+                    ? "[complex value]"
+                    : elem.getValue().getValueElement();
 
-            Object value2 = file2.get(elem.getKey()) == null
-                    ? file2.get(elem.getKey())
-                    : file2.get(elem.getKey()).toString().charAt(0) == '{'
-                        || file2.get(elem.getKey()).toString().charAt(0) == '['
-                        ? "[complex value]"
-                        : file2.get(elem.getKey());
+            Object value2 = elem.getValue().getNewValueElement() == null
+                    ? elem.getValue().getNewValueElement()
+                    : elem.getValue().getNewValueElement().toString().charAt(0) == '{'
+                    || elem.getValue().getNewValueElement().toString().charAt(0) == '['
+                    ? "[complex value]"
+                    : elem.getValue().getNewValueElement();
 
-
-            switch (elem.getValue()) {
+            switch (elem.getValue().getStatus()) {
                 case ADDED:
                     result.append("\nProperty \'"
                             + elem.getKey()
                             + "\' was added with value: \'"
-                            + value2
+                            + value1
                             + "\'");
                     break;
                 case DELETE:
@@ -48,7 +45,10 @@ public class DifferPlain {
                             + " to "
                             + value2);
                     break;
+                case NOT_CHANGED:
+                    break;
                 default:
+                    throw new Error("unknown status");
             }
         }
 

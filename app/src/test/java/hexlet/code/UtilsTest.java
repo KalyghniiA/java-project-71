@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static hexlet.code.utils.Utils.createObjectMapper;
 import static hexlet.code.utils.Utils.getAbsolutePath;
 import static hexlet.code.utils.Utils.mappingFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +36,7 @@ public class UtilsTest {
     public void mappingFileJsonTest() throws IOException {
         String path = "test1.json";
         final int age = 37;
+        ObjectMapper objectMapper = createObjectMapper(path);
 
         Map<String, Object> testResult = new HashMap<>(Map.of(
                 "name", "Иван",
@@ -46,7 +49,7 @@ public class UtilsTest {
                 "dog", "Jack"));
 
 
-        assertEquals(testResult, mappingFile(path));
+        assertEquals(testResult, mappingFile(path, objectMapper));
 
     }
 }
