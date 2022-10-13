@@ -2,9 +2,9 @@ package hexlet.code.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -14,7 +14,8 @@ import java.util.Map;
 public class Utils {
     private static final String CATALOG_URI = "src/test/resources/";
     public static Path getAbsolutePath(String path) {
-        return path.indexOf("/") != -1
+
+        return path.indexOf("/") != -1 || path.indexOf("https") != -1
                 ? Paths.get(path).toAbsolutePath()
                 : Paths.get(CATALOG_URI + path).toAbsolutePath();
     }
@@ -23,7 +24,7 @@ public class Utils {
 
 
         return objectMapper
-                .readValue(getAbsolutePath(filePath).toFile(), new TypeReference<HashMap<String, Object>>() {
+                .readValue(Files.readString(getAbsolutePath(filePath)), new TypeReference<HashMap<String, Object>>() {
 
                 });
     }
@@ -35,16 +36,5 @@ public class Utils {
     public static String getFileFormat(String filePath) {
         return filePath.substring(filePath.lastIndexOf("."));
     }
-    public static ObjectMapper createObjectMapper(String filePath) {
-        String typeFile = filePath.substring(filePath.lastIndexOf("."));
 
-        switch (typeFile) {
-            case ".yml":
-                return new YAMLMapper();
-            case ".json":
-                return new ObjectMapper();
-            default:
-                throw new Error("failed to create ObjectMapper");
-        }
-    }
 }

@@ -5,11 +5,11 @@ public class StatusDataElement {
     private Object value;
     private Object newValue;
 
-    StatusDataElement(StatusData elementStatus, Object elementValue) {
+    public StatusDataElement(StatusData elementStatus, Object elementValue) {
         this.status = elementStatus;
         this.value = elementValue;
     }
-    StatusDataElement(StatusData elementStatus, Object elementValue, Object elementNewValue) {
+    public StatusDataElement(StatusData elementStatus, Object elementValue, Object elementNewValue) {
         this.status = elementStatus;
         this.value = elementValue;
         this.newValue = elementNewValue;

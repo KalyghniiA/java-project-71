@@ -2,6 +2,7 @@ package hexlet.code.differ;
 
 import hexlet.code.utils.StatusDataElement;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -12,19 +13,16 @@ public class DifferPlain {
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
-            Object value1 = elem.getValue().getValueElement() == null
-                ? elem.getValue().getValueElement()
-                : elem.getValue().getValueElement().toString().charAt(0) == '{'
-                    || elem.getValue().getValueElement().toString().charAt(0) == '['
-                    ? "[complex value]"
-                    : elem.getValue().getValueElement();
+            Object value1 = elem.getValue().getValueElement() instanceof Map
+                    || elem.getValue().getValueElement() instanceof List
+                        ? "[complex value]"
+                        : elem.getValue().getValueElement();
 
-            Object value2 = elem.getValue().getNewValueElement() == null
-                    ? elem.getValue().getNewValueElement()
-                    : elem.getValue().getNewValueElement().toString().charAt(0) == '{'
-                    || elem.getValue().getNewValueElement().toString().charAt(0) == '['
-                    ? "[complex value]"
-                    : elem.getValue().getNewValueElement();
+
+            Object value2 = elem.getValue().getNewValueElement() instanceof Map
+                    || elem.getValue().getNewValueElement() instanceof List
+                        ? "[complex value]"
+                        : elem.getValue().getNewValueElement();
 
             switch (elem.getValue().getStatus()) {
                 case ADDED:

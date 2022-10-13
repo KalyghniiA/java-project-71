@@ -1,11 +1,11 @@
 package hexlet.code;
 
-import hexlet.code.differ.Differ;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 @Command(name = "App", mixinStandardHelpOptions = true, version = "checksum 4.6.3")
@@ -20,9 +20,13 @@ public class App implements Callable {
 
     @Override
     public final Object call() throws Exception {
-        Differ differ = new Differ(filePath1, filePath2);
-        differ.generate(format);
-        return null;
+        try {
+            Differ differ = new Differ(filePath1, filePath2);
+            differ.generate(format);
+            return 0;
+        } catch (IOException e) {
+            return -1;
+        }
     }
 
     public static void main(String[] args) {

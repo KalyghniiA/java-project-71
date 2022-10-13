@@ -1,29 +1,36 @@
-package hexlet.code.utils;
+package hexlet.code.parser;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.utils.StatusData;
+import hexlet.code.utils.StatusDataElement;
+
+import java.io.IOException;
+import java.util.Objects;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.HashMap;
 
-public class Parser {
+import static hexlet.code.utils.Utils.getAbsolutePath;
 
-    public static Map<String, StatusDataElement> parsing(Map<String, Object> file1, Map<String, Object> file2) {
+public interface Builder {
+
+    default Map<String, StatusDataElement> parsing() throws IOException {
         Map<String, StatusDataElement> result = new TreeMap<>();
+        Map<String, Object> file1 = mappingFile(getPath1());
+        Map<String, Object> file2 = mappingFile(getPath2());
+
         Set<String> keys = new HashSet<>(file1.keySet());
         keys.addAll(file2.keySet());
 
         for (String key: keys) {
             if (file1.containsKey(key) && file2.containsKey(key)) {
-                if (file1.get(key) == null) {
-                    result.put(key, file2.get(key) == null
-                            ? new StatusDataElement(StatusData.NOT_CHANGED, file2.get(key))
-                            : new StatusDataElement(StatusData.MODIFICATION, file1.get(key), file2.get(key)));
-                    continue;
-                }
                 result.put(
                         key,
-                        file1.get(key).equals(file2.get(key))
+                        Objects.equals(file1.get(key), file2.get(key))
                                 ? new StatusDataElement(StatusData.NOT_CHANGED, file2.get(key))
                                 : new StatusDataElement(StatusData.MODIFICATION, file1.get(key), file2.get(key)));
                 continue;
@@ -38,4 +45,14 @@ public class Parser {
 
         return result;
     }
+
+    default Map<String, Object> mappingFile(String filePath) throws IOException {
+        return createObjectMapper()
+                .readValue(getAbsolutePath(filePath).toFile(), new TypeReference<HashMap<String, Object>>() {
+                });
+    }
+
+    ObjectMapper createObjectMapper();
+    String getPath1();
+    String getPath2();
 }

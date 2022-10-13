@@ -3,15 +3,15 @@ package hexlet.code.differ;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.utils.StatusDataElement;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class DifferJSON {
     private static ObjectMapper objectMapper = new ObjectMapper();
-    public static File createDifferToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
-        File resultFile = new File("src/test/resources/result.json");
+    public static String createDifferToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
+
         Map<String, Object> resultMap = new TreeMap<>();
 
 
@@ -48,15 +48,9 @@ public class DifferJSON {
             }
         }
 
-        if (!resultFile.createNewFile()) {
-            resultFile.delete();
-            resultFile.createNewFile();
-        }
 
-        objectMapper.writeValue(resultFile, resultMap);
+        String result = objectMapper.writeValueAsString(resultMap);
 
-        System.out.println("create file differ to path" + resultFile.getAbsolutePath());
-
-        return resultFile;
+        return result;
     }
 }
