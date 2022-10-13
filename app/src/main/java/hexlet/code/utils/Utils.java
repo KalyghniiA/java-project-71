@@ -34,7 +34,7 @@ public class Utils {
     }
 
     public static String getFileFormat(String filePath) {
-        return filePath.substring(filePath.lastIndexOf("."));
+        return filePath.substring(filePath.lastIndexOf(".") + 1);
     }
 
 }

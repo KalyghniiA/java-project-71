@@ -21,8 +21,7 @@ public class App implements Callable {
     @Override
     public final Object call() throws Exception {
         try {
-            Differ differ = new Differ(filePath1, filePath2);
-            differ.generate(format);
+            System.out.println(Differ.generate(filePath1, filePath2, format));
             return 0;
         } catch (IOException e) {
             return -1;
