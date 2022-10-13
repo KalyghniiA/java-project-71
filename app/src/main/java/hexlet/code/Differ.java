@@ -81,8 +81,6 @@ public class Differ {
             throw new Error("different formats");
         }
 
-        System.out.println(getFileFormat(filePath1));
-
         Map<String, StatusDataElement> resultDiff;
 
         switch (getFileFormat(filePath1)) {
