@@ -9,7 +9,7 @@ import java.util.Map;
 public class DifferPlain {
 
     public static String createDifferToPlain(Map<String, StatusDataElement> resultDiff) {
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder("\n");
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
