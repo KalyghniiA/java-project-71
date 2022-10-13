@@ -56,6 +56,6 @@ public class DifferPlain {
         }
 
 
-        return result.toString();
+        return result.toString().trim();
     }
 }
