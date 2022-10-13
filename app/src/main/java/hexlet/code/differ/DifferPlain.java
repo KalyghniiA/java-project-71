@@ -9,7 +9,7 @@ import java.util.Map;
 public class DifferPlain {
 
     public static String createDifferToPlain(Map<String, StatusDataElement> resultDiff) {
-        StringBuilder result = new StringBuilder("\n");
+        StringBuilder result = new StringBuilder();
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
@@ -26,22 +26,23 @@ public class DifferPlain {
 
             switch (elem.getValue().getStatus()) {
                 case ADDED:
-                    result.append("\nProperty \'"
+                    result.append("Property \'"
                             + elem.getKey()
                             + "\' was added with value: \'"
                             + value1
-                            + "\'");
+                            + "\'\n");
                     break;
                 case DELETE:
-                    result.append("\nProperty \'" + elem.getKey() + "\' was removed");
+                    result.append("Property \'" + elem.getKey() + "\' was removed\n");
                     break;
                 case MODIFICATION:
-                    result.append("\nProperty \'"
+                    result.append("Property \'"
                             + elem.getKey()
                             + "\' was updated. From "
                             + value1
                             + " to "
-                            + value2);
+                            + value2
+                            + "\n");
                     break;
                 case NOT_CHANGED:
                     break;
