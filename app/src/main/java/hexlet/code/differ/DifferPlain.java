@@ -16,21 +16,25 @@ public class DifferPlain {
             Object value1 = elem.getValue().getValueElement() instanceof Map
                     || elem.getValue().getValueElement() instanceof List
                         ? "[complex value]"
-                        : elem.getValue().getValueElement();
+                        : elem.getValue().getValueElement() instanceof String
+                            ? "'" + elem.getValue().getValueElement() + "'"
+                            : elem.getValue().getValueElement();
 
 
             Object value2 = elem.getValue().getNewValueElement() instanceof Map
                     || elem.getValue().getNewValueElement() instanceof List
                         ? "[complex value]"
-                        : elem.getValue().getNewValueElement();
+                        :  elem.getValue().getNewValueElement() instanceof String
+                            ? "'" + elem.getValue().getNewValueElement() + "'"
+                            : elem.getValue().getNewValueElement();
 
             switch (elem.getValue().getStatus()) {
                 case ADDED:
                     result.append("Property \'"
                             + elem.getKey()
-                            + "\' was added with value: \'"
+                            + "\' was added with value: "
                             + value1
-                            + "\'\n");
+                            + "\n");
                     break;
                 case DELETE:
                     result.append("Property \'" + elem.getKey() + "\' was removed\n");

@@ -160,11 +160,11 @@ public class DifferTest {
                 + "Property 'key2' was added with value: 'value2'\n"
                 + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
                 + "Property 'numbers3' was removed\n"
-                + "Property 'numbers4' was added with value: '[complex value]'\n"
-                + "Property 'obj1' was added with value: '[complex value]'\n"
-                + "Property 'setting1' was updated. From Some value to Another value\n"
+                + "Property 'numbers4' was added with value: [complex value]\n"
+                + "Property 'obj1' was added with value: [complex value]\n"
+                + "Property 'setting1' was updated. From \'Some value\' to \'Another value\'\n"
                 + "Property 'setting2' was updated. From 200 to 300\n"
-                + "Property 'setting3' was updated. From true to none\n";
+                + "Property 'setting3' was updated. From true to \'none\'\n";
 
         Map<String, StatusDataElement> resultDiff = new BuilderJSON("test3.json", "test4.json").parsing();
 
