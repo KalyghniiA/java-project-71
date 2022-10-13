@@ -177,7 +177,7 @@ public class DifferTest {
     @Test
     public void differToFile() throws IOException {
 
-        String result = Files.readString(getAbsolutePath("testResultPArse.json"));
+        String result = Files.readString(getAbsolutePath("testResultParse.json"));
 
         Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test2.json").parsing();
 
