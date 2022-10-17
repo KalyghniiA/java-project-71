@@ -13,20 +13,10 @@ public class DifferPlain {
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
-            Object value1 = elem.getValue().getValueElement() instanceof Map
-                    || elem.getValue().getValueElement() instanceof List
-                        ? "[complex value]"
-                        : elem.getValue().getValueElement() instanceof String
-                            ? "'" + elem.getValue().getValueElement() + "'"
-                            : elem.getValue().getValueElement();
+            Object value1 = getValue(elem.getValue().getValueElement());
 
 
-            Object value2 = elem.getValue().getNewValueElement() instanceof Map
-                    || elem.getValue().getNewValueElement() instanceof List
-                        ? "[complex value]"
-                        :  elem.getValue().getNewValueElement() instanceof String
-                            ? "'" + elem.getValue().getNewValueElement() + "'"
-                            : elem.getValue().getNewValueElement();
+            Object value2 = getValue(elem.getValue().getNewValueElement());
 
             switch (elem.getValue().getStatus()) {
                 case ADDED:
@@ -57,5 +47,15 @@ public class DifferPlain {
 
 
         return result.toString().trim();
+    }
+
+    private static Object getValue(Object value) {
+        if (value instanceof Map || value instanceof List) {
+            return "[complex value]";
+        }
+        if (value instanceof String) {
+            return "'" + value + "'";
+        }
+        return value;
     }
 }

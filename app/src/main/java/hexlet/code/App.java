@@ -24,7 +24,7 @@ public class App implements Callable {
             System.out.println(Differ.generate(filePath1, filePath2, format));
             return 0;
         } catch (IOException e) {
-            return -1;
+            return 1;
         }
     }
 

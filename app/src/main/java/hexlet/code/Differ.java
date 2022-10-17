@@ -1,7 +1,7 @@
 package hexlet.code;
 
-import hexlet.code.parser.BuilderJSON;
-import hexlet.code.parser.BuilderYML;
+import hexlet.code.builder.BuilderJSON;
+import hexlet.code.builder.BuilderYML;
 import hexlet.code.utils.StatusDataElement;
 
 import java.io.IOException;
@@ -14,66 +14,9 @@ import static hexlet.code.utils.Utils.getFileFormat;
 import static hexlet.code.utils.Utils.isValidationFormat;
 
 public class Differ {
-    /*private String filePath1;
-    private String filePath2;
-    public Differ(String path1, String path2) {
-        this.filePath1 = path1;
-        this.filePath2 = path2;
-    }*/
-
-    /*public final void generate(String format) throws IOException {
-        if (!isValidationFormat(filePath1, filePath2)) {
-            throw new Error("different formats");
-        }
-
-        Map<String, StatusDataElement> resultDiff;
-
-        switch (getFileFormat(filePath2)) {
-            case "json":
-                resultDiff = new BuilderJSON(filePath1, filePath2).parsing();
-                break;
-            case "yml":
-                resultDiff = new BuilderYML(filePath1, filePath2).parsing();
-                break;
-            default:
-                throw new Error("format not specified");
-        }
-
-        switch (format.toLowerCase()) {
-            case "json":
-                System.out.println(createDifferToJSON(resultDiff));
-                break;
-            case "plain":
-                System.out.println(createDifferToPlain(resultDiff));
-                break;
-            case "stylish":
-                System.out.println(createDifferToStylish(resultDiff));
-                break;
-            default:
-                throw new Error("format not specified");
-        }
-    }*/
 
     public static String generate(String filePath1, String filePath2) throws IOException {
-        if (!isValidationFormat(filePath1, filePath2)) {
-            throw new Error("different formats");
-        }
-
-        Map<String, StatusDataElement> resultDiff;
-
-        switch (getFileFormat(filePath2)) {
-            case "json":
-                resultDiff = new BuilderJSON(filePath1, filePath2).parsing();
-                break;
-            case "yml":
-                resultDiff = new BuilderYML(filePath1, filePath2).parsing();
-                break;
-            default:
-                throw new Error("format not specified");
-        }
-
-
-        return createDifferToStylish(resultDiff);
+        return generate(filePath1, filePath2, "stylish");
     }
 
     public static String generate(String filePath1, String filePath2, String format) throws IOException {
@@ -81,19 +24,22 @@ public class Differ {
             throw new Error("different formats");
         }
 
-        Map<String, StatusDataElement> resultDiff;
+        return formatResult(format, createResultDiff(filePath1, filePath2));
+    }
 
+    private static Map<String, StatusDataElement> createResultDiff(String filePath1, String filePath2)
+            throws IOException {
         switch (getFileFormat(filePath1)) {
             case "json":
-                resultDiff = new BuilderJSON(filePath1, filePath2).parsing();
-                break;
+                return new BuilderJSON(filePath1, filePath2).diff();
             case "yml":
-                resultDiff = new BuilderYML(filePath1, filePath2).parsing();
-                break;
+                return new BuilderYML(filePath1, filePath2).diff();
             default:
                 throw new Error("format not specified");
         }
+    }
 
+    private static String formatResult(String format,  Map<String, StatusDataElement> resultDiff) throws IOException {
         switch (format.toLowerCase()) {
             case "json":
                 return createDifferToJSON(resultDiff);

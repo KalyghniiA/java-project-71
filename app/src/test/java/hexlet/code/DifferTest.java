@@ -1,8 +1,8 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.parser.BuilderJSON;
-import hexlet.code.parser.BuilderYML;
+import hexlet.code.builder.BuilderJSON;
+import hexlet.code.builder.BuilderYML;
 import hexlet.code.utils.StatusDataElement;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,7 @@ public class DifferTest {
                 + "}";
 
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test2.json").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test2.json").diff();
 
         String testingResult = createDifferToStylish(resultDiff);
 
@@ -58,7 +58,7 @@ public class DifferTest {
                 + "    name: Иван\n"
                 + "}";
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test2.json", "test1.json").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test2.json", "test1.json").diff();
 
         String testingResult = createDifferToStylish(resultDiff);
 
@@ -79,7 +79,7 @@ public class DifferTest {
                 + "}";
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test1.json").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test1.json").diff();
 
         String testingResult = createDifferToStylish(resultDiff);
 
@@ -107,7 +107,7 @@ public class DifferTest {
                 + "}";
 
 
-        Map<String, StatusDataElement> resultDiff = new BuilderYML("test1.yml", "test2.yml").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderYML("test1.yml", "test2.yml").diff();
 
 
         String testResult = createDifferToStylish(resultDiff);
@@ -143,7 +143,7 @@ public class DifferTest {
                 + "  + setting3: none\n"
                 + "}";
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test3.json", "test4.json").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test3.json", "test4.json").diff();
 
         String testResult = createDifferToStylish(resultDiff);
 
@@ -166,7 +166,7 @@ public class DifferTest {
                 + "Property 'setting2' was updated. From 200 to 300\n"
                 + "Property 'setting3' was updated. From true to \'none\'";
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test3.json", "test4.json").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test3.json", "test4.json").diff();
 
         String testResult = createDifferToPlain(resultDiff);
 
@@ -178,7 +178,7 @@ public class DifferTest {
 
         String result = Files.readString(getAbsolutePath("testResultParse.json"));
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test2.json").parsing();
+        Map<String, StatusDataElement> resultDiff = new BuilderJSON("test1.json", "test2.json").diff();
 
         String testingResult = createDifferToJSON(resultDiff);
 
