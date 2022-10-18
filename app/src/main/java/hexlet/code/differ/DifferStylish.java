@@ -15,17 +15,27 @@ public class DifferStylish {
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
             switch (elem.getValue().getStatus()) {
                 case ADDED:
-                    result.append("  + " + elem.getKey() + ": " + elem.getValue().getValueElement() + "\n");
+                    result
+                            .append(String.format("  + %s: %s", elem.getKey(), elem.getValue().getOldValueElement()))
+                            .append("\n");
                     break;
                 case DELETE:
-                    result.append("  - " + elem.getKey() + ": " + elem.getValue().getValueElement() + "\n");
+                    result
+                            .append(String.format("  - %s: %s", elem.getKey(), elem.getValue().getOldValueElement()))
+                            .append("\n");
                     break;
                 case MODIFICATION:
-                    result.append("  - " + elem.getKey() + ": " + elem.getValue().getValueElement() + "\n");
-                    result.append("  + " + elem.getKey() + ": " + elem.getValue().getNewValueElement() + "\n");
+                    result
+                            .append(String.format("  - %s: %s", elem.getKey(), elem.getValue().getOldValueElement()))
+                            .append("\n");
+                    result
+                            .append(String.format("  + %s: %s", elem.getKey(), elem.getValue().getNewValueElement()))
+                            .append("\n");
                     break;
                 case NOT_CHANGED:
-                    result.append("    " + elem.getKey() + ": " + elem.getValue().getValueElement() + "\n");
+                    result
+                            .append(String.format("    %s: %s", elem.getKey(), elem.getValue().getOldValueElement()))
+                            .append("\n");
                     break;
                 default:
                     throw new Error("unknown status");

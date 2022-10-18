@@ -1,21 +1,23 @@
 package hexlet.code.builder;
 
 
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hexlet.code.data.Data;
 import hexlet.code.utils.StatusData;
 import hexlet.code.utils.StatusDataElement;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Objects;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
+import java.util.Set;
+import java.util.Objects;
 import java.util.HashMap;
 
-import static hexlet.code.utils.Utils.getAbsolutePath;
+
 
 public abstract class Builder {
     private Map<String, Object> file1;
@@ -73,9 +75,11 @@ public abstract class Builder {
     }
 
     final Map<String, Object> getStructure(String filePath) throws IOException {
+
         return getObjectMapper()
-                .readValue(Files.readString(getAbsolutePath(filePath)), new TypeReference<HashMap<String, Object>>() {
-                });
+                .readValue(
+                        Files.readString(new Data(filePath).getAbsolutePath()),
+                        new TypeReference<HashMap<String, Object>>() { });
     }
 
     public abstract ObjectMapper getObjectMapper();

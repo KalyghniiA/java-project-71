@@ -13,30 +13,29 @@ public class DifferPlain {
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
 
-            Object value1 = getValue(elem.getValue().getValueElement());
-
-
+            Object value1 = getValue(elem.getValue().getOldValueElement());
             Object value2 = getValue(elem.getValue().getNewValueElement());
 
             switch (elem.getValue().getStatus()) {
                 case ADDED:
-                    result.append("Property \'"
-                            + elem.getKey()
-                            + "\' was added with value: "
-                            + value1
-                            + "\n");
+                    result
+                            .append(String.format("Property \'%s\' was added with value: %s", elem.getKey(), value1))
+                            .append("\n");
                     break;
                 case DELETE:
-                    result.append("Property \'" + elem.getKey() + "\' was removed\n");
+                    result
+                            .append(String.format("Property \'%s\' was removed", elem.getKey()))
+                            .append("\n");
                     break;
                 case MODIFICATION:
-                    result.append("Property \'"
-                            + elem.getKey()
-                            + "\' was updated. From "
-                            + value1
-                            + " to "
-                            + value2
-                            + "\n");
+                    result
+                            .append(String.format(
+                                    "Property \'%s\' was updated. From %s to %s",
+                                    elem.getKey(),
+                                    value1,
+                                    value2))
+                            .append("\n");
+
                     break;
                 case NOT_CHANGED:
                     break;
@@ -56,6 +55,6 @@ public class DifferPlain {
         if (value instanceof String) {
             return "'" + value + "'";
         }
-        return value;
+        return String.valueOf(value);
     }
 }

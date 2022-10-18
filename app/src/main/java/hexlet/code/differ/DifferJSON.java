@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+
 public class DifferJSON {
     private static ObjectMapper objectMapper = new ObjectMapper();
     public static String createDifferToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
@@ -21,19 +22,19 @@ public class DifferJSON {
                 case ADDED:
                     resultMap.put(
                             "+" + elem.getKey(),
-                            elem.getValue().getValueElement()
+                            elem.getValue().getOldValueElement()
                     );
                     break;
                 case DELETE:
                     resultMap.put(
                             "-" + elem.getKey(),
-                            elem.getValue().getValueElement()
+                            elem.getValue().getOldValueElement()
                     );
                     break;
                 case MODIFICATION:
                     resultMap.put(
                             "-" + elem.getKey(),
-                            elem.getValue().getValueElement()
+                            elem.getValue().getOldValueElement()
                     );
                     resultMap.put(
                             "+" + elem.getKey(),
@@ -41,13 +42,14 @@ public class DifferJSON {
                     );
                     break;
                 case NOT_CHANGED:
-                    resultMap.put(elem.getKey(), elem.getValue().getValueElement());
+                    resultMap.put(elem.getKey(), elem.getValue().getOldValueElement());
                     break;
                 default:
                     throw new Error("unknown status");
             }
         }
 
+        //String result = objectMapper.writeValueAsString(resultDiff);
 
         String result = objectMapper.writeValueAsString(resultMap);
 
