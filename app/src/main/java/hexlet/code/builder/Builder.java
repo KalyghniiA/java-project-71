@@ -10,12 +10,12 @@ import hexlet.code.utils.StatusDataElement;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.Objects;
-import java.util.HashMap;
+
 
 
 
@@ -30,9 +30,9 @@ public abstract class Builder {
 
 
     public final Map<String, StatusDataElement> diff() {
-        Map<String, StatusDataElement> result = new TreeMap<>();
+        Map<String, StatusDataElement> result = new LinkedHashMap<>();
 
-        Set<String> keys = new HashSet<>(file1.keySet());
+        Set<String> keys = new TreeSet<>(file1.keySet());
         keys.addAll(file2.keySet());
 
         for (String key: keys) {
@@ -79,7 +79,7 @@ public abstract class Builder {
         return getObjectMapper()
                 .readValue(
                         Files.readString(new Data(filePath).getAbsolutePath()),
-                        new TypeReference<HashMap<String, Object>>() { });
+                        new TypeReference<LinkedHashMap<String, Object>>() { });
     }
 
     public abstract ObjectMapper getObjectMapper();

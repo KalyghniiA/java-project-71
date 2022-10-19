@@ -6,14 +6,13 @@ import hexlet.code.utils.StatusDataElement;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.TreeMap;
 
 
 public class DifferJSON {
     private static ObjectMapper objectMapper = new ObjectMapper();
     public static String createDifferToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
 
-        Map<String, Object> resultMap = new TreeMap<>();
+        /*Map<String, Object> resultMap = new TreeMap<>();
 
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
@@ -49,10 +48,9 @@ public class DifferJSON {
             }
         }
 
-        //String result = objectMapper.writeValueAsString(resultDiff);
 
-        String result = objectMapper.writeValueAsString(resultMap);
+        String result = objectMapper.writeValueAsString(resultMap);*/
 
-        return result;
+        return objectMapper.writeValueAsString(resultDiff);
     }
 }
