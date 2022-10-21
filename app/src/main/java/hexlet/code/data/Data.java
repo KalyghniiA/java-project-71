@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static hexlet.code.utils.Utils.getFileFormat;
+
 
 public class Data {
     private String filePath1;
@@ -36,4 +38,7 @@ public class Data {
         return generateFileToString(filePath2);
     }
 
+    public final String getFormat() {
+        return getFileFormat(filePath1);
+    }
 }

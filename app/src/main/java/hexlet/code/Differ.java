@@ -11,7 +11,6 @@ import java.util.Map;
 import static hexlet.code.differ.DifferJSON.createDifferToJSON;
 import static hexlet.code.differ.DifferPlain.createDifferToPlain;
 import static hexlet.code.differ.DifferStylish.createDifferToStylish;
-import static hexlet.code.utils.Utils.getFileFormat;
 import static hexlet.code.utils.Utils.isValidationFormat;
 
 public class Differ {
@@ -27,12 +26,17 @@ public class Differ {
 
         Data data = new Data(filePath1, filePath2);
 
-        return formatResult(format, createResultDiff(data.getFirstData(), data.getSecondData()));
+        return formatResult(format, createResultDiff(
+                data.getFirstData(),
+                data.getSecondData(),
+                data.getFormat()));
     }
 
-    private static Map<String, StatusDataElement> createResultDiff(String filePath1, String filePath2)
+    private static Map<String, StatusDataElement> createResultDiff(String filePath1,
+                                                                   String filePath2,
+                                                                   String fileFormat)
             throws IOException {
-        switch (getFileFormat(filePath1)) {
+        switch (fileFormat) {
             case "json":
                 return new BuilderJSON(filePath1, filePath2).diff();
             case "yml":
