@@ -47,7 +47,6 @@ public class Differ {
     }
 
     private static String formatResult(String format,  Map<String, StatusDataElement> resultDiff) throws IOException {
-        System.out.println(format);
         switch (format.toLowerCase()) {
             case "json":
                 return createDifferToJSON(resultDiff);
