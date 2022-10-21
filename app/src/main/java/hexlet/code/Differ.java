@@ -38,7 +38,7 @@ public class Differ {
             case "yml":
                 return new BuilderYML(filePath1, filePath2).diff();
             default:
-                throw new Error("format not specified");
+                throw new Error("format not specified!!");
         }
     }
 
