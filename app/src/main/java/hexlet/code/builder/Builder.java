@@ -4,12 +4,10 @@ package hexlet.code.builder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.data.Data;
 import hexlet.code.utils.StatusData;
 import hexlet.code.utils.StatusDataElement;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.TreeSet;
 import java.util.Map;
 import java.util.LinkedHashMap;
@@ -23,9 +21,9 @@ public abstract class Builder {
     private Map<String, Object> file1;
     private Map<String, Object> file2;
 
-    public Builder(String path1, String path2) throws IOException {
-        this.file1 = getStructure(path1);
-        this.file2 = getStructure(path2);
+    public Builder(String firstFile, String secondFile) throws IOException {
+        this.file1 = getStructure(firstFile);
+        this.file2 = getStructure(secondFile);
     }
 
 
@@ -38,20 +36,6 @@ public abstract class Builder {
         for (String key: keys) {
             result.put(key, getStatusElement(key));
 
-            /*if (file1.containsKey(key) && file2.containsKey(key)) {
-                result.put(
-                        key,
-                        Objects.equals(file1.get(key), file2.get(key))
-                                ? new StatusDataElement(StatusData.NOT_CHANGED, file2.get(key))
-                                : new StatusDataElement(StatusData.MODIFICATION, file1.get(key), file2.get(key)));
-                continue;
-            }
-            if (!file1.containsKey(key)) {
-                result.put(key, new StatusDataElement(StatusData.ADDED, file2.get(key)));
-            }
-            if (!file2.containsKey(key)) {
-                result.put(key, new StatusDataElement(StatusData.DELETE, file1.get(key)));
-            }*/
         }
 
         return result;
@@ -74,11 +58,11 @@ public abstract class Builder {
         throw new Error("Error not element");
     }
 
-    final Map<String, Object> getStructure(String filePath) throws IOException {
+    final Map<String, Object> getStructure(String file) throws IOException {
 
         return getObjectMapper()
                 .readValue(
-                        Files.readString(new Data(filePath).getAbsolutePath()),
+                       file,
                         new TypeReference<LinkedHashMap<String, Object>>() { });
     }
 

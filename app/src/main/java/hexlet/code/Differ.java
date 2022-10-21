@@ -2,6 +2,7 @@ package hexlet.code;
 
 import hexlet.code.builder.BuilderJSON;
 import hexlet.code.builder.BuilderYML;
+import hexlet.code.data.Data;
 import hexlet.code.utils.StatusDataElement;
 
 import java.io.IOException;
@@ -24,7 +25,9 @@ public class Differ {
             throw new Error("different formats");
         }
 
-        return formatResult(format, createResultDiff(filePath1, filePath2));
+        Data data = new Data(filePath1, filePath2);
+
+        return formatResult(format, createResultDiff(data.getFirstData(), data.getSecondData()));
     }
 
     private static Map<String, StatusDataElement> createResultDiff(String filePath1, String filePath2)
