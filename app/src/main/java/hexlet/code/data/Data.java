@@ -8,37 +8,34 @@ import java.nio.file.Paths;
 import static hexlet.code.utils.Utils.getFileFormat;
 
 
-public class Data {
-    private String filePath1;
-    private String filePath2;
+public final class Data {
+    private String filePath;
     private static final String CATALOG_URI = "src/test/resources/";
 
-    public Data(String path1, String path2) {
-        this.filePath1 = path1;
-        this.filePath2 = path2;
+    public Data(String path1) {
+        this.filePath = path1;
+
     }
 
 
-    private Path getAbsolutePath(String filePath) {
+    private Path getAbsolutePath(String path) {
 
-        return filePath.indexOf("/") != -1 || filePath.indexOf("https") != -1
-                ? Paths.get(filePath).toAbsolutePath()
-                : Paths.get(CATALOG_URI + filePath).toAbsolutePath();
+        return path.indexOf("/") != -1 || path.indexOf("https") != -1
+                ? Paths.get(path).toAbsolutePath()
+                : Paths.get(CATALOG_URI + path).toAbsolutePath();
     }
 
-    private String generateFileToString(String filePath) throws IOException {
-        return Files.readString(getAbsolutePath(filePath));
+    private String generateFileToString(String path) throws IOException {
+        return Files.readString(getAbsolutePath(path));
     }
 
-    public final String getFirstData() throws IOException {
-        return generateFileToString(filePath1);
+    public String getData() throws IOException {
+        return generateFileToString(filePath);
     }
 
-    public final String getSecondData() throws IOException {
-        return generateFileToString(filePath2);
+
+    public String getFormat() {
+        return getFileFormat(filePath);
     }
 
-    public final String getFormat() {
-        return getFileFormat(filePath1);
-    }
 }

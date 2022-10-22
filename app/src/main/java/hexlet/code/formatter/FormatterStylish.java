@@ -1,4 +1,4 @@
-package hexlet.code.differ;
+package hexlet.code.formatter;
 
 
 import hexlet.code.utils.StatusDataElement;
@@ -7,8 +7,8 @@ import java.util.Map;
 
 
 
-public class DifferStylish {
-    public static String createDifferToStylish(Map<String, StatusDataElement> resultDiff) {
+public class FormatterStylish {
+    public static String createFormatToStylish(Map<String, StatusDataElement> resultDiff) {
         StringBuilder result = new StringBuilder("{\n");
 
 

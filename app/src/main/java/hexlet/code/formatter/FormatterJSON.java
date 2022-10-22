@@ -1,4 +1,4 @@
-package hexlet.code.differ;
+package hexlet.code.formatter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.utils.StatusDataElement;
@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.Map;
 
 
-public class DifferJSON {
+public class FormatterJSON {
     private static ObjectMapper objectMapper = new ObjectMapper();
-    public static String createDifferToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
+    public static String createFormatToJSON(Map<String, StatusDataElement> resultDiff) throws IOException {
 
         /*Map<String, Object> resultMap = new TreeMap<>();
 

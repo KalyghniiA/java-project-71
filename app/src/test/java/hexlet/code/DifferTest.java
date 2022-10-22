@@ -1,19 +1,14 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.builder.BuilderJSON;
-import hexlet.code.builder.BuilderYML;
-import hexlet.code.data.Data;
-import hexlet.code.utils.StatusDataElement;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Map;
 
-import static hexlet.code.differ.DifferJSON.createDifferToJSON;
-import static hexlet.code.differ.DifferPlain.createDifferToPlain;
-import static hexlet.code.differ.DifferStylish.createDifferToStylish;
+
+
+
 import static hexlet.code.utils.Utils.getAbsolutePath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,12 +31,8 @@ public class DifferTest {
                 + "}";
 
 
-        Data data = new Data("test1.json", "test2.json");
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON(
-                data.getFirstData(), data.getSecondData()).diff();
-
-        String testingResult = createDifferToStylish(resultDiff);
+        String testingResult = Differ.generate("test1.json", "test2.json");
 
         assertEquals(result, testingResult);
     }
@@ -61,13 +52,8 @@ public class DifferTest {
                 + "    mother: Ольга\n"
                 + "    name: Иван\n"
                 + "}";
-        Data data = new Data("test2.json", "test1.json");
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON(
-                data.getFirstData(), data.getSecondData()).diff();
-
-        String testingResult = createDifferToStylish(resultDiff);
-
+        String testingResult = Differ.generate("test2.json", "test1.json");
         assertEquals(result, testingResult);
     }
 
@@ -84,13 +70,8 @@ public class DifferTest {
                 + "    name: Иван\n"
                 + "}";
         ObjectMapper objectMapper = new ObjectMapper();
-        Data data = new Data("test1.json", "test1.json");
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON(
-                data.getFirstData(), data.getSecondData()).diff();
-
-        String testingResult = createDifferToStylish(resultDiff);
-
+        String testingResult = Differ.generate("test1.json", "test1.json");
         assertEquals(result, testingResult);
     }
 
@@ -113,14 +94,8 @@ public class DifferTest {
                 + "  - timezone: America/Boston\n"
                 + "  + timezone: America/Los_Angeles\n"
                 + "}";
-        Data data = new Data("test1.yml", "test2.yml");
 
-        Map<String, StatusDataElement> resultDiff = new BuilderYML(
-                data.getFirstData(), data.getSecondData()).diff();
-
-
-        String testResult = createDifferToStylish(resultDiff);
-
+        String testResult = Differ.generate("test1.yml", "test2.yml");
         assertEquals(result, testResult);
     }
 
@@ -152,12 +127,8 @@ public class DifferTest {
                 + "  + setting3: none\n"
                 + "}";
 
-        Data data = new Data("test3.json", "test4.json");
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON(
-                data.getFirstData(), data.getSecondData()).diff();
-
-        String testResult = createDifferToStylish(resultDiff);
+        String testResult = Differ.generate("test3.json", "test4.json");
 
         assertEquals(result, testResult);
     }
@@ -178,14 +149,9 @@ public class DifferTest {
                 + "Property 'setting2' was updated. From 200 to 300\n"
                 + "Property 'setting3' was updated. From true to \'none\'";
 
-        Data data = new Data("test3.json", "test4.json");
 
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON(
-                data.getFirstData(), data.getSecondData()).diff();
-
-        String testResult = createDifferToPlain(resultDiff);
-
-        assertEquals(result, testResult);
+        String testingResult = Differ.generate("test3.json", "test4.json", "plain");
+        assertEquals(result, testingResult);
     }
 
     @Test
@@ -193,14 +159,7 @@ public class DifferTest {
 
         String result = Files.readString(getAbsolutePath("testResultParse.json"));
 
-        Data data = new Data("test1.json", "test2.json");
-
-        Map<String, StatusDataElement> resultDiff = new BuilderJSON(
-                data.getFirstData(), data.getSecondData()).diff();
-
-        String testingResult = createDifferToJSON(resultDiff);
-
-
+        String testingResult = Differ.generate("test1.json", "test2.json", "json");
         assertEquals(result, testingResult);
 
     }

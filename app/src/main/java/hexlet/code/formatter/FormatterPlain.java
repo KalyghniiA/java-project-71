@@ -1,4 +1,4 @@
-package hexlet.code.differ;
+package hexlet.code.formatter;
 
 import hexlet.code.utils.StatusDataElement;
 
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DifferPlain {
+public class FormatterPlain {
 
-    public static String createDifferToPlain(Map<String, StatusDataElement> resultDiff) {
+    public static String createFormatToPlain(Map<String, StatusDataElement> resultDiff) {
         StringBuilder result = new StringBuilder();
 
         for (Map.Entry<String, StatusDataElement> elem: resultDiff.entrySet()) {
